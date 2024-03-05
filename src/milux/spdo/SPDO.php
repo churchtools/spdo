@@ -64,6 +64,12 @@ class SPDO {
         return self::$instance;
     }
 
+    public static function disconnect() {
+        if (self::$instance) {
+            self::$instance->disconnect();
+        }
+    }
+
     /**
      * Returns whether the returning of insert IDs by insert() and batchInsert() is enabled
      *
