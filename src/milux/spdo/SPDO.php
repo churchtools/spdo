@@ -67,6 +67,7 @@ class SPDO {
     public static function disconnect() {
         if (self::$instance) {
             self::$instance->disconnect();
+            self::$instance = null;
         }
     }
 
