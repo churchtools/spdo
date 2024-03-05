@@ -422,4 +422,8 @@ class SPDOConnection {
         return $this->pdo->lastInsertId($insertIdName);
     }
 
+    public function disconnect() {
+        $this->pdo = null;
+    }
+
 }
