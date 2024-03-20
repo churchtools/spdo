@@ -11,7 +11,8 @@ class TestTemplate extends TestCase {
 
     const TEST_TABLE = 'test_table';
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void
+    {
         SPDO::setConfig(new TestSPDOConfig(function ($config) {
             return new ModernSPDOConnection($config);
         }));
@@ -29,14 +30,14 @@ SQL
     /**
      * @throws SPDOException
      */
-    public function tearDown() {
+    public function tearDown(): void {
         SPDO::exec('TRUNCATE ' . self::TEST_TABLE);
     }
 
     /**
      * @throws SPDOException
      */
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         SPDO::exec('DROP TABLE ' . self::TEST_TABLE);
     }
 

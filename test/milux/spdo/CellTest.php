@@ -17,7 +17,7 @@ class CellTest extends TestTemplate {
     /**
      * @throws SPDOException
      */
-    public function setUp() {
+    public function setUp(): void {
         SPDO::batchInsert(self::TEST_TABLE, [
             'col1' => [1, 4, 7],
             'col2' => [2, 5, 8],
