@@ -9,14 +9,16 @@
 
 namespace milux\spdo;
 
+use PDO;
+
 class SPDOConnection {
 
     protected static $typeMap = [
-        'boolean' => \PDO::PARAM_BOOL,
-        'integer' => \PDO::PARAM_INT,
-        'double' => \PDO::PARAM_STR,
-        'string' => \PDO::PARAM_STR,
-        'NULL' => \PDO::PARAM_NULL
+        'boolean' => PDO::PARAM_BOOL,
+        'integer' => PDO::PARAM_INT,
+        'double' => PDO::PARAM_STR,
+        'string' => PDO::PARAM_STR,
+        'NULL' => PDO::PARAM_NULL
     ];
 
     /**
@@ -30,12 +32,12 @@ class SPDOConnection {
         $typeMap = self::$typeMap;
         return array_map(function ($v) use ($typeMap) {
             $type = gettype($v);
-            return isset($typeMap[$type]) ? $typeMap[$type] : \PDO::PARAM_STR;
+            return $typeMap[$type] ?? PDO::PARAM_STR;
         }, $values);
     }
 
     /**
-     * @var \PDO the PDO object which is encapsulated by this decorator
+     * @var PDO the PDO object which is encapsulated by this decorator
      */
     protected $pdo = null;
     /**
@@ -59,18 +61,18 @@ class SPDOConnection {
         $dsn = 'mysql:host=' . $configObject->getHost() . ';dbname=' . $configObject->getSchema();
         $port = $configObject->getPort();
         if ($port) {
-            $dsn .= ";port=${port}";
+            $dsn .= ";port=$port";
         }
-        $this->pdo = new \PDO(
+        $this->pdo = new PDO(
             $dsn,
             $configObject->getUser(),
             $configObject->getPassword(),
             $options + [
-                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                \PDO::ATTR_PERSISTENT => true
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                PDO::ATTR_PERSISTENT => true
             ]
         );
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     /**
